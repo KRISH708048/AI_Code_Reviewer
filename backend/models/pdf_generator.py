@@ -5,7 +5,7 @@ import os
 import uuid
 
 class PDFReportGenerator:
-    def generate(self, report_data: dict, output_dir: str = "generated_reports") -> str:
+    def generate(self, report_data: dict, output_dir: str = "generated_report") -> str:
         os.makedirs(output_dir, exist_ok=True)
         file_name = f"report_{uuid.uuid4()}.pdf"
         file_path = os.path.join(output_dir, file_name)
