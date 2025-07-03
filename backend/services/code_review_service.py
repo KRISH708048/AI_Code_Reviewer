@@ -15,9 +15,8 @@ class CodeReviewService:
         if not api_key:
             raise ValueError("Missing GEMINI_API_KEY")
         self.analyzer = GeminiCodeAnalyzer(genai.Client(api_key=api_key))
-        self.pdf_generator = PDFReportGenerator()
 
-    def analyze_code(self, code_text: str = None, file_path: str = None, user=None):
+    def analyze_code(self, code_text: str = None, file_path: str = None, user=None) ->dict:
         try:
             if file_path:
                 code = CodeFromFile(file_path)
@@ -40,3 +39,7 @@ class CodeReviewService:
         except Exception as e:
             logging.exception("Unexpected error during code analysis")
             raise HTTPException(status_code=500, detail=str(e))
+
+    
+
+
