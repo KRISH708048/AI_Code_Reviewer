@@ -7,5 +7,4 @@ class UserModel(BaseModel):
 
 class AnalyzeRequest(BaseModel):
     code: Optional[str] = None
-    file_path: Optional[str] = None
-    user: UserModel
+    user: UserModel 

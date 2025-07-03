@@ -11,4 +11,4 @@ app.include_router(analyze.router, prefix="/api")
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to AI Code Review API 🚀"}
+    return {"message": "Welcome to AI Code Review API"}
