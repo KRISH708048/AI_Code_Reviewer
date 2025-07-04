@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile,HTTPException, Request
+from fastapi import APIRouter, UploadFile,HTTPException, Request, Form
 from fastapi.responses import FileResponse
 from models.pdf_generator import PDFReportGenerator
 from models.request_model import AnalyzeRequest
@@ -12,7 +12,7 @@ router = APIRouter()
 async def analyze_code(payload: AnalyzeRequest):
     service = CodeReviewService()
     if payload.code:
-        return service.analyze_code(code_text=payload.code, user=payload.user)
+        return service.analyze_code(language=payload.language, code_text=payload.code, user=payload.user)
 
     else:
         raise HTTPException(status_code=400, detail="No code provided.")
@@ -20,6 +20,8 @@ async def analyze_code(payload: AnalyzeRequest):
 @router.post("/analyze/file")
 async def analyze_code(
     file: UploadFile = None,
+    language: str = Form(None),
+    user: str = Form(None)
 ):
     service = CodeReviewService()
 
@@ -34,7 +36,7 @@ async def analyze_code(
         with open(temp_path, "wb") as f:
             f.write(await file.read())
 
-        return service.analyze_code(file_path=temp_path, user=user)
+        return service.analyze_code(language=language, file_path=temp_path, user=user)
 
     else:
         raise HTTPException(status_code=400, detail="file provided.")

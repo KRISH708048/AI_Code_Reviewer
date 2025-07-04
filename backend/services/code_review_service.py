@@ -16,12 +16,12 @@ class CodeReviewService:
             raise ValueError("Missing GEMINI_API_KEY")
         self.analyzer = GeminiCodeAnalyzer(genai.Client(api_key=api_key))
 
-    def analyze_code(self, code_text: str = None, file_path: str = None, user=None) ->dict:
+    def analyze_code(self, language:str = None, code_text: str = None, file_path: str = None, user=None) ->dict:
         try:
             if file_path:
-                code = CodeFromFile(file_path)
+                code = CodeFromFile(file_path, language)
             elif code_text:
-                code = CodeFromText(code_text)
+                code = CodeFromText(code_text, language)
             else:
                 raise HTTPException(status_code=400, detail="No code or file provided.")
 

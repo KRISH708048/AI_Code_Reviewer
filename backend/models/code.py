@@ -14,11 +14,13 @@ class Code(ABC):
 
 
 class CodeFromFile(Code):
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str, language: str = None):
         self.file_path = file_path
         with open(file_path, "r") as f:
             content = f.read()
-        super().__init__(content, self.detect_language())
+        if language is None:
+            language = self.detect_language(content)
+        super().__init__(content, language)
 
     def detect_language(self) -> str:
         extension_language_map = language_supported # cpp , python, java
@@ -26,11 +28,12 @@ class CodeFromFile(Code):
         return extension_language_map.get(extension, "Unknown")
     
 class CodeFromText(Code):
-    def __init__(self, content: str):
-        super().__init__(content, self.detect_language(content))
+    def __init__(self, content: str, language: str = None):
+        if language is None:
+            language = self.detect_language(content)
+        super().__init__(content, language)
 
     def detect_language(self, content: str) -> str:
-        # Placeholder: Replace with language detection logic using a model or heuristic
         if "def " in content and "import " in content:
             return "Python"
         elif "#include" in content:

@@ -6,5 +6,6 @@ class UserModel(BaseModel):
     email: str
 
 class AnalyzeRequest(BaseModel):
+    language: Optional[str] = None
     code: Optional[str] = None
     user: UserModel 
