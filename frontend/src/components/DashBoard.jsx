@@ -56,7 +56,6 @@ const DashBoard = () => {
       }
 
       const resultData = await response.json();
-      console.log("Analysis Result:", resultData);
       setAnalysisResult(resultData);
     } catch (err) {
       setError(err.message);
