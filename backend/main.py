@@ -11,9 +11,9 @@ app = FastAPI(
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
-    "https://ai-code-reviewer-nine-nu.vercel.app/",
-    "https://ai-code-reviewer-git-main-krishs-projects-d8c81696.vercel.app/",
-    "https://ai-code-reviewer-krishs-projects-d8c81696.vercel.app/",
+    "https://ai-code-reviewer-nine-nu.vercel.app",
+    "https://ai-code-reviewer-git-main-krishs-projects-d8c81696.vercel.app",
+    "https://ai-code-reviewer-krishs-projects-d8c81696.vercel.app",
 ]
 
 app.add_middleware(
@@ -28,5 +28,3 @@ app.include_router(analyze.router, prefix="/api")
 def read_root():
     return {"message": "Welcome to AI Code Review API"}
 
-
-# https://ai-code-reviewer-d2j2.onrender.com
