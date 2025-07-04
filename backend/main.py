@@ -11,6 +11,9 @@ app = FastAPI(
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
+    "https://ai-code-reviewer-nine-nu.vercel.app/",
+    "https://ai-code-reviewer-git-main-krishs-projects-d8c81696.vercel.app/",
+    "https://ai-code-reviewer-krishs-projects-d8c81696.vercel.app/",
 ]
 
 app.add_middleware(
