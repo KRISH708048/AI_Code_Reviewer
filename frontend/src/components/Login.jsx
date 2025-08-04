@@ -35,7 +35,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/token`,
+        `${import.meta.env.VITE_API_BASE_URL}/users/token`,
         // "/api/users/token",
         {
           method: "POST",
