@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import CodeInput from "./CodeInput"
+import CodeInput from "./CodeInput";
 import AnalysisResult from './AnalysisResult';
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 const DashBoard = () => {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isPdfLoading, setIsPdfLoading] = useState(false);
   const [error, setError] = useState("");
+  const { token } = useAuth();
 
   const handleAnalyze = async (type, payload) => {
-    if (
-      !payload ||
+    if (!payload ||
       (type === "text" && !payload.code) ||
       (type === "file" && !payload.file)
     ) {
@@ -19,42 +20,39 @@ const DashBoard = () => {
       );
       return;
     }
-
     setError("");
     setIsLoading(true);
     setAnalysisResult(null);
 
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+
     try {
       let response;
       if (type === "text") {
-        const apiPayload = {
-          code: payload.code,
-          language: payload.language,
-          user: { id: "1", email: "demo@example.com" },
-        };
-        response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/analyze/json`, {
+        headers['Content-Type'] = 'application/json';
+        response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/analyze/json`, 
+          // '/api/analyze/json',
+          {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(apiPayload),
+          headers: headers,
+          body: JSON.stringify(payload),
         });
       } else {
         const formData = new FormData();
         formData.append("file", payload.file);
         formData.append("language", payload.language);
-        formData.append("user", JSON.stringify({ id: "1", email: "demo" }));
-        response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/analyze/file`, {
+        response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/analyze/file`,
+          // '/api/analyze/file',
+           {
           method: "POST",
+          headers: headers,
           body: formData,
         });
       }
-
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(
-          errData.detail || "An unknown error occurred during analysis."
-        );
-      }
-
       const resultData = await response.json();
       setAnalysisResult(resultData);
     } catch (err) {
@@ -71,7 +69,10 @@ const DashBoard = () => {
     setError("");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/analyze/pdf`, {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/analyze/pdf`,
+        // '/api/analyze/pdf',
+         {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(analysisResult),

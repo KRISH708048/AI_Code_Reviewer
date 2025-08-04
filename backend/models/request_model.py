@@ -1,11 +1,18 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 
-class UserModel(BaseModel):
-    id: int
-    email: str
-
 class AnalyzeRequest(BaseModel):
-    language: Optional[str] = None
-    code: Optional[str] = None
-    user: UserModel 
+    code: str
+    language: str
+    user: Optional[dict] = None
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    email: Optional[str] = None

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import analyze
+from routes import analyze, users, history # Import new routers
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
@@ -22,9 +22,11 @@ app.add_middleware(
     allow_methods=["*"],        
     allow_headers=["*"],        
 )
-app.include_router(analyze.router, prefix="/api")
+
+app.include_router(users.router, tags=["Users & Auth"])
+app.include_router(analyze.router, tags=["Code Analysis"])
+app.include_router(history.router, tags=["History"])
 
 @app.get("/")
 def read_root():
     return {"message": "Welcome to AI Code Review API"}
-
