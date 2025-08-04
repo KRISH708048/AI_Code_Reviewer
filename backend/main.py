@@ -23,9 +23,9 @@ app.add_middleware(
     allow_headers=["*"],        
 )
 
-app.include_router(users.router, tags=["Users & Auth"])
-app.include_router(analyze.router, tags=["Code Analysis"])
-app.include_router(history.router, tags=["History"])
+app.include_router(users.router,prefix="/api", tags=["Users & Auth"])
+app.include_router(analyze.router,prefix="/api", tags=["Code Analysis"])
+app.include_router(history.router,prefix="/api", tags=["History"])
 
 @app.get("/")
 def read_root():
